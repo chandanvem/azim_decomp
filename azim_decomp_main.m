@@ -5,6 +5,7 @@ addpath(genpath('/work/home/chandan/Chandan_case_files/FWH_tesselation_interp/sl
 addpath(genpath('/work/home/chandan/Chandan_case_files/brescase_FWH_time_series/matlab_files'));
 addpath(genpath('/work/home/chandan/Chandan_case_files/SPOD_work_space/scripts/output_function_definitions'));
 addpath(genpath('/work/home/chandan/Chandan_case_files/SPOD_work_space/scripts/utils'));
+addpath(genpath('/work/home/chandan/Chandan_case_files/brescase/post_processing_scripts/Bres_case_scripts/utils'));
 %
 wkdir_list = {'/work/home/chandan/chandan_backup_asenag/BRES_SPOD_TIME_SERIES',...
                '/work/home/chandan/chandan_backup_asenmp/BRES_SPOD_TIME_SERIES',...
@@ -30,7 +31,8 @@ end
 %%
 output_dir = '/work/home/chandan/Chandan_case_files/SPOD_work_space/SPOD_DATA/brescase/azi_decomp_time_series';
 output_file_name = 'Bres_geomtrip_azi_decomp';
-
+concat_op_file_name = 'Bres_geomtrip_concat';
+write_concat_file_flag = 'write_concat_file';
 %%
 phase_name = 'Bres_geomtrip';
 grid_name= 'chamber';
@@ -68,6 +70,7 @@ for sol_file_idx = sol_file_start_idx : sol_file_end_idx
 
     tic;
     h5OutName = sprintf('%s/%s_%d.h5',output_dir,output_file_name,sol_file_idx);
+    concat_op_file_name = sprintf('%s/%s.h5',output_dir,concat_op_file_name);
     if exist(h5OutName,'file')==2
         delete(h5OutName);
     end
@@ -80,7 +83,8 @@ for sol_file_idx = sol_file_start_idx : sol_file_end_idx
     if exist(LES_data_file_name,'file')==2
     
        do_azimuthal_decomposition_given_field_names_func(centerline_data_file_name,centerline_grid_name,LES_data_file_name,new_src_blk_start_idx,new_src_blk_end_idx,phase_name,grid_name,field_names,...
-               p_inf,rho_inf,c_inf,azi_mode_start,azi_mode_end,h5OutName);
+               p_inf,rho_inf,c_inf,azi_mode_start,azi_mode_end,h5OutName,...
+                             write_concat_file_flag,concat_op_file_name);
 
     else 
         fprintf('File %s not found, moving on \n',LES_data_file_name);

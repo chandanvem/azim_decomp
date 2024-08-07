@@ -22,6 +22,5 @@ end
 
 
 dataset_concatenated_to_single_cylindrical_grid = concat_along_theta(dataset_quadrant);
-% size(dataset_concatenated_to_single_cylindrical_grid);
 
 end
